@@ -10,11 +10,11 @@ class JobsController < ApplicationController
   def index
     @jobs = case params[:order]
     when "by_wage_lower"
-      Job.where(:is_hidden => false).order("wage_lower_bound DESC")
+      Job.published.order("wage_lower_bound DESC")
     when "by_wage_upper"
-      Job.where(:is_hidden => false).order("wage_upper_bound DESC")
+      Job.published.order("wage_upper_bound DESC")
     else
-      Job.where(:is_hidden => false).order("created_at DESC")
+      Job.published.recent
     end
   end
 
