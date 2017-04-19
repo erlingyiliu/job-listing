@@ -8,7 +8,14 @@ class JobsController < ApplicationController
   end
 
   def index
-    @jobs = Job.where(:is_hidden => false).order("created_at DESC")
+    @jobs = case params[:order]
+    when "by_wage_lower"
+      Job.where(:is_hidden => false).order("wage_lower_bound DESC")
+    when "by_wage_upper"
+      Job.where(:is_hidden => false).order("wage_upper_bound DESC")
+    else
+      Job.where(:is_hidden => false).order("created_at DESC")
+    end
   end
 
   def new
